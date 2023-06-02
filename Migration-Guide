@@ -1,9 +1,12 @@
-Qbit-Manage Migration
+# Qbit-Manage Migration
+
 Currently the qbit-manage (qbm) config file manages torrents in two ways: via tracker and via hardlinks. The section of the config where you specify your trackers is also where you can specify share limits (duration and ratio) on a per-tracker basis. The section of the config where you address no hardlinks (noHL) is where you specify share limits for files that are not hardlinked.
 
 Starting with develop version 3.6.4 torrents are no longer configured solely by tracker or noHL status. You now create groups of torrents based on tags and you can set specific share limits for each group. This means max_seeding_time, min_seeding_time and max_ratio are no longer used in the tracker or noHL section of the config, they are used for each group of torrents.
 
-Old config:
+## Old config
+
+```yml
 cat:
   movies: “/data/torrents/movies”
   tv: “/data/torrents/tv”
@@ -29,8 +32,11 @@ nohardlinks:
     cleanup: true
     max_seeding_time: 25
     max_ratio: 1
+```
 
-New config:
+### New config
+
+```yml
 cat:
 - movies: “/data/torrents/movies”
 - tv: “/data/torrents/tv”
@@ -84,6 +90,7 @@ sharelimits:
     - tv
     max_ratio:
     max_seeding_time:
+```
 
 The new config will operate as follows:
 Torrents from tracker a and tracker b that are tagged as noHL and in the movie category will have a share limit of 75 minutes and a ratio of 2. These same torrents, when not tagged as noHL, will then have a share limit of 100 minutes and a ratio of 5.
